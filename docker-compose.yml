@@ -65,3 +65,21 @@ services:
         mkdir -p /sources/logs /sources/dags /sources/plugins
         chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
         exec /entrypoint airflow version
+  
+  mysql-test:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'webinar'
+      MYSQL_USER: 'airflow'
+      MYSQL_PASSWORD: 'airflow'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+
+volumes:
+  my-db:
